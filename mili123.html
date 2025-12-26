@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💖 Love</title>
+
+<style>
+body{
+  margin:0;
+  background:#0b0b16;
+  color:white;
+  font-family:Arial,sans-serif;
+  text-align:center;
+  overflow:hidden;
+}
+.screen{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+input, textarea, button{
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  margin:10px;
+  font-size:16px;
+}
+button{
+  background:#ff4d6d;
+  color:white;
+  cursor:pointer;
+}
+#yesBtn{
+  animation: glow 1.5s ease-in-out infinite alternate;
+}
+@keyframes glow{
+  from{box-shadow:0 0 5px #ff4d6d;}
+  to{box-shadow:0 0 20px #ff9aa2;}
+}
+#noBtn{
+  position:absolute;
+  animation: shake 0.4s infinite;
+}
+@keyframes shake{
+  0%{transform:translate(0);}
+  25%{transform:translate(2px,2px);}
+  50%{transform:translate(-2px,2px);}
+  75%{transform:translate(2px,-2px);}
+  100%{transform:translate(0);}
+}
+.heart{
+  position:fixed;
+  color:red;
+  font-size:18px;
+  animation:float 6s linear infinite;
+}
+@keyframes float{
+  from{transform:translateY(110vh);}
+  to{transform:translateY(-10vh);}
+}
+
+/* 🌧️ RAIN */
+.rain{
+  position:fixed;
+  top:-100px;
+  width:2px;
+  height:80px;
+  background:linear-gradient(to bottom,rgba(255,255,255,0.6),transparent);
+  animation:rainFall linear infinite;
+  pointer-events:none;
+  opacity:0.6;
+}
+@keyframes rainFall{
+  to{transform:translateY(120vh);}
+}
+</style>
+</head>
+
+<body>
+
+<!-- MUSIC -->
+<audio autoplay loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
+</audio>
+
+<!-- PASSWORD -->
+<div class="screen" id="pass">
+  <h2>🔐 Enter Password</h2>
+  <input type="password" id="pwd" placeholder="Password">
+  <button onclick="check()">Enter</button>
+</div>
+
+<!-- FLOWER -->
+<div class="screen" id="love" style="display:none;">
+  <h1>🌸 Tap the Flower 🌸</h1>
+  <button onclick="showQ()">🌹</button>
+</div>
+
+<!-- QUESTION -->
+<div class="screen" id="question" style="display:none;">
+  <h1>💖 Do you love me?</h1>
+  <button id="yesBtn" onclick="yes()">Yes ❤️</button>
+  <button id="noBtn" onclick="moveNo()">No 💔</button>
+</div>
+
+<!-- MESSAGE -->
+<div class="screen" id="form" style="display:none;">
+  <h2>💌 Write your message</h2>
+  <form action="https://formspree.io/f/mbdrznwg" method="POST">
+    <textarea name="message" rows="5" placeholder="Write anything you want..." required></textarea><br>
+    <button type="submit">Send 💖</button>
+  </form>
+</div>
+
+<script>
+function check(){
+  if(pwd.value==="love"){
+    pass.style.display="none";
+    love.style.display="flex";
+  }else alert("Wrong password 😢");
+}
+
+function showQ(){
+  love.style.display="none";
+  question.style.display="flex";
+}
+
+function moveNo(){
+  const maxX = window.innerWidth - noBtn.offsetWidth;
+  const maxY = window.innerHeight - noBtn.offsetHeight;
+  noBtn.style.left = Math.random()*maxX + "px";
+  noBtn.style.top = Math.random()*maxY + "px";
+}
+
+setInterval(moveNo, 900);
+
+function yes(){
+  question.style.display="none";
+  form.style.display="flex";
+  startRain();
+}
+
+function startRain(){
+  for(let i=0;i<100;i++){
+    let d=document.createElement("div");
+    d.className="rain";
+    d.style.left=Math.random()*100+"vw";
+    d.style.animationDuration=(Math.random()*1+0.5)+"s";
+    d.style.animationDelay=Math.random()*2+"s";
+    document.body.appendChild(d);
+  }
+}
+
+/* hearts */
+for(let i=0;i<30;i++){
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="❤";
+  h.style.left=Math.random()*100+"%";
+  h.style.animationDuration=(Math.random()*3+4)+"s";
+  document.body.appendChild(h);
+}
+</script>
+
+</body>
+</html>
